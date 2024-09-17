@@ -1,0 +1,22 @@
+suite: Test core components with mcg default values
+templates:
+  - core/namespaces.yaml
+  - core/subscriptions.yaml
+values:
+  - mcg_global_test_values.yaml
+  - mcg_hub_test_values.yaml
+tests:
+  - it: Testing namespace template
+    template: core/namespaces.yaml
+    asserts:
+      - hasDocuments:
+          count: 5
+      - isKind:
+          of: Namespace
+  - it: Testing subscription template
+    template: core/subscriptions.yaml
+    asserts:
+      - hasDocuments:
+          count: 1 
+      - isKind:
+          of: Subscription
