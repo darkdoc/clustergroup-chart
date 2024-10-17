@@ -12,6 +12,12 @@ metadata:
     validatedpatterns.io/pattern: {{ $.Values.global.pattern }}
   finalizers:
   - resources-finalizer.argocd.argoproj.io/foreground
+  {{- if .annotations }}
+  annotations:
+    {{- range $key, $value := .annotations }} {{- /* We loop through the map to get key/value pairs */}}
+    {{ $key }}: {{ $value | default "" | quote }}
+    {{- end }}
+  {{- end }}{{- /* if .annotations */}}
 spec:
   destination:
     name: {{ $.Values.clusterGroup.targetCluster }}

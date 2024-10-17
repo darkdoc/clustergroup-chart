@@ -10,6 +10,12 @@ kind: Subscription
 metadata:
   name: {{ $subs.name }}
   namespace: {{ . }}
+  {{- if $subs.annotations }}
+  annotations:
+    {{- range $key, $value := $subs.annotations }} {{- /* We loop through the map to get key/value pairs */}}
+    {{ $key }}: {{ $value | default "" | quote }}
+    {{- end }}
+  {{- end }}{{- /* if $subs.annotations */}}
 spec:
   name: {{ $subs.name }}
   source: {{ default "redhat-operators" $subs.source }}
@@ -42,6 +48,12 @@ kind: Subscription
 metadata:
   name: {{ $subs.name }}
   namespace: {{ default "openshift-operators" $subs.namespace }}
+  {{- if .annotations }}
+  annotations:
+    {{- range $key, $value := .annotations }} {{- /* We loop through the map to get key/value pairs */}}
+    {{ $key }}: {{ $value | default "" | quote }}
+    {{- end }}
+  {{- end }}{{- /* if .annotations */}}
 spec:
   name: {{ $subs.name }}
   source: {{ default "redhat-operators" $subs.source }}
