@@ -1,5 +1,5 @@
 {{- $namespace := print $.Values.global.pattern "-" $.Values.clusterGroup.name }}
-{{- range .Values.clusterGroup.applications }}
+{{- range $application:= .Values.clusterGroup.applications }}
 {{- if .disabled }} {{- /* This allows us to null out an Application entry by specifying disabled: true in an override file */}}
 {{- else }}
 ---
@@ -12,12 +12,15 @@ metadata:
     validatedpatterns.io/pattern: {{ $.Values.global.pattern }}
   finalizers:
   - resources-finalizer.argocd.argoproj.io/foreground
-  {{- if .annotations }}
   annotations:
+  {{- if .annotations }}
     {{- range $key, $value := .annotations }} {{- /* We loop through the map to get key/value pairs */}}
     {{ $key }}: {{ $value | default "" | quote }}
     {{- end }}
   {{- end }}{{- /* if .annotations */}}
+  {{- if hasKey $application "argowave" }}
+    argocd.argoproj.io/sync-wave: {{ $application.argowave | default "0" | quote }}
+  {{- end }}{{- /* if $application.argowave */}}
 spec:
   destination:
     name: {{ $.Values.clusterGroup.targetCluster }}

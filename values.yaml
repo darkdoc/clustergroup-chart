@@ -53,7 +53,10 @@ clusterGroup:
         kinds:
         - TaskRun
         - PipelineRun
-
+    syncWaves:
+      namespaceOffset: -20
+      projectOffset: -10
+      subscriptionOffset: -10
   imperative:
     jobs: []
     image: quay.io/hybridcloudpatterns/imperative-container:v1
