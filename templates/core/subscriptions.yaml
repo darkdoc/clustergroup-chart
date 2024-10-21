@@ -10,12 +10,14 @@ kind: Subscription
 metadata:
   name: {{ $subs.name }}
   namespace: {{ . }}
-  {{- if $subs.annotations }}
   annotations:
+  {{- if $subs.annotations }}
     {{- range $key, $value := $subs.annotations }} {{- /* We loop through the map to get key/value pairs */}}
     {{ $key }}: {{ $value | default "" | quote }}
     {{- end }}
   {{- end }}{{- /* if $subs.annotations */}}
+    {{- $applicationArgowave := include "getApplicationNamespaceArgowave" (list . $.Values.clusterGroup.applications) }}
+    argocd.argoproj.io/sync-wave: {{ add $applicationArgowave $.Values.clusterGroup.argoCD.syncWaves.subscriptionOffset | quote }}
 spec:
   name: {{ $subs.name }}
   source: {{ default "redhat-operators" $subs.source }}

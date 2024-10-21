@@ -81,9 +81,9 @@ Default always defined valueFiles to be included in Applications but with a pref
 {{- end }} {{/* if $.Values.global.extraValueFiles */}}
 {{- end }} {{/* clustergroup.app.globalvalues.prefixedvaluefiles */}}
 
-{{/* 
+{{/*
 Helper function to generate AppProject from a map object
-Called from common/clustergroup/templates/plumbing/projects.yaml 
+Called from common/clustergroup/templates/plumbing/projects.yaml
 */}}
 {{- define "clustergroup.template.plumbing.projects.map" -}}
 {{- $projects := index . 0 }}
@@ -117,9 +117,9 @@ status: {}
 {{- end }}
 {{- end }}
 
-{{/* 
+{{/*
   Helper function to generate AppProject from a list object.
-  Called from common/clustergroup/templates/plumbing/projects.yaml 
+  Called from common/clustergroup/templates/plumbing/projects.yaml
 */}}
 {{- define "clustergroup.template.plumbing.projects.list" -}}
 {{- $projects := index . 0 }}
@@ -152,13 +152,13 @@ status: {}
 {{- end }}
 {{- end }}
 
-{{/* 
+{{/*
   Helper function to generate Namespaces from a map object.
   Arguments passed as a list object are:
   0 - The namespace hash keys
   1 - Pattern name from .Values.global.pattern
   2 - Cluster group name from .Values.clusterGroup.name
-  Called from common/clustergroup/templates/core/namespaces.yaml 
+  Called from common/clustergroup/templates/core/namespaces.yaml
 */}}
 {{- define "clustergroup.template.core.namespaces.map" -}}
 {{- $ns := index . 0 }}
@@ -190,7 +190,7 @@ spec:
 {{- end }}{{- /* range $k, $v := $ns */}}
 {{- end }}
 
-{{- /* 
+{{- /*
   Helper function to generate OperatorGroup from a map object.
   Arguments passed as a list object are:
   0 - The namespace hash keys
@@ -240,3 +240,43 @@ spec:
   {{- end }}{{- /* End range $k, $v = $ns */}}
 {{- end }}{{- /* End of if operatorGroupExcludes */}}
 {{- end }} {{- /* End define  "clustergroup.template.core.operatorgroup.map" */}}
+
+{{- define "getApplicationNamespaceArgowave" -}}
+  {{- $ns := index . 0  -}}
+  {{- $argowave := 1000  }}
+  {{- $applications := index . 1 -}}
+  {{- range $application := $applications }}
+    {{- if eq ($application.namespace | toString) $ns }}
+      {{- if hasKey $application "argowave" }}
+        {{- $argowave = min $argowave $application.argowave }}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- if eq $argowave 1000 }}
+{{- 0 }}
+{{- else }}
+{{- $argowave }}
+{{- end -}}
+{{- end -}}
+
+{{- define "getApplicationProjectArgowave" -}}
+  {{- $project := index . 0  -}}
+  {{- $argowave := 1000  }}
+  {{- $applications := index . 1 -}}
+  {{- range $application := $applications }}
+    {{- if eq ($application.project | toString) $project }}
+      {{- if hasKey $application "argowave" }}
+        {{- $argowave = min $argowave $application.argowave }}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- if eq $argowave 1000 }}
+{{- 0 }}
+{{- else }}
+{{- $argowave }}
+{{- end -}}
+{{- end -}}
+
+{{- define "yolo.var_dump" -}}
+{{- . | mustToPrettyJson | printf "\nThe JSON output of the dumped var is: \n%s" | fail }}
+{{- end -}}

@@ -14,6 +14,9 @@ kind: AppProject
 metadata:
   name: {{ . }}
   namespace: {{ $namespace }}
+  annotations:
+    {{- $applicationArgowave := include "getApplicationProjectArgowave" (list . $.Values.clusterGroup.applications) }}
+    argocd.argoproj.io/sync-wave: {{ add $applicationArgowave $.Values.clusterGroup.argoCD.syncWaves.projectOffset | quote }}
 spec:
   description: "Pattern {{ . }}"
   destinations:
