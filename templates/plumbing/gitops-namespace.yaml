@@ -8,4 +8,6 @@ metadata:
   # - clustergroup/templates/applications.yaml
   # - any references to secrets and route URLs in documentation
   name: {{ $.Values.global.pattern }}-{{ .Values.clusterGroup.name }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-100"
 spec: {}
