@@ -200,6 +200,8 @@ kind: ConsoleLink
 metadata:
   name: {{ .Values.clusterGroup.name }}-gitops-link
   namespace: {{ $namespace }}
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   applicationMenu:
     section: OpenShift GitOps
