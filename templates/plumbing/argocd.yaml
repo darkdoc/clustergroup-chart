@@ -33,6 +33,20 @@ spec:
       hs.status = "Progressing"
       hs.message = "Waiting for PVC"
       return hs
+  - kind: Application
+    check: |
+      hs = {}
+      hs.status = "Progressing"
+      hs.message = ""
+      if obj.status ~= nil then
+        if obj.status.health ~= nil then
+          hs.status = obj.status.health.status
+          if obj.status.health.message ~= nil then
+            hs.message = obj.status.health.message
+          end
+        end
+      end
+      return hs
 
   # FIXME(bandini): To be dropped once 49431b9add9393ef2ece78d4f63968b6c10276e0 in argocd is in a relased version
   - kind: InferenceService 
