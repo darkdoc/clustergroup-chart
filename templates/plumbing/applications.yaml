@@ -176,10 +176,10 @@ spec:
   {{- if .ignoreDifferences }}
   ignoreDifferences: {{ .ignoreDifferences | toPrettyJson }}
   {{- end }}
-  {{ $syncpolicy := coalesce .syncPolicy $.Values.global.options.syncPolicy | lower }}
-  {{- if eq $syncpolicy "manual" }}
+  {{ $syncpolicy := coalesce .syncPolicy $.Values.global.options.syncPolicy }}
+  {{- if and (kindIs "string" $syncpolicy) (eq ($syncpolicy | lower) "manual") }}
   syncPolicy: null
-  {{- else if eq $syncpolicy "automatic" }}
+  {{- else if and (kindIs "string" $syncpolicy) (eq ($syncpolicy | lower)  "automatic") }}
   syncPolicy:
     automated: {}
     retry:
