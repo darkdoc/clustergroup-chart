@@ -17,7 +17,7 @@ metadata:
     {{- end }}
     {{- end }}{{- /* if .annotations */}}
   finalizers:
-  - resources-finalizer.argocd.argoproj.io/foreground
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     name: {{ $.Values.clusterGroup.targetCluster }}
