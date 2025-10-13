@@ -1,4 +1,4 @@
-{{- $namespace := print $.Values.global.pattern "-" $.Values.clusterGroup.name }}
+{{- $namespace := include "clustergroup.template.argocdnamespace" . | trim }}
 {{- range .Values.clusterGroup.applications }}
 {{- $projectName := coalesce .argoProject .project "default" -}} {{- /* Read argoProject if set, otherwise .project and otherwise set it to "default" */}}
 {{- if .disabled }} {{- /* This allows us to null out an Application entry by specifying disabled: true in an override file */}}

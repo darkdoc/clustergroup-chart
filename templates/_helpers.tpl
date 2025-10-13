@@ -240,3 +240,26 @@ spec:
   {{- end }}{{- /* End range $k, $v = $ns */}}
 {{- end }}{{- /* End of if operatorGroupExcludes */}}
 {{- end }} {{- /* End define  "clustergroup.template.core.operatorgroup.map" */}}
+
+{{- /* 
+  Helper function to generate argocd namespace name
+*/ -}}
+{{- define "clustergroup.template.argocdnamespace" -}}
+{{- if $.Values.clusterGroup.singleArgoCD }}
+openshift-gitops
+{{- else }}
+{{ $.Values.global.pattern }}-{{ $.Values.clusterGroup.name }}
+{{- end }}{{- /* if .singleArgoCD */}}
+{{- end }} {{- /* End define  "clustergroup.template.argocdnamespace" */}}
+
+
+{{- /* 
+  Helper function to generate argocd labels name
+*/ -}}
+{{- define "clustergroup.template.argocdmanagedbylabel" }}
+{{- if $.Values.clusterGroup.singleArgoCD }}
+argocd.argoproj.io/managed-by: openshift-gitops
+{{- else }}
+argocd.argoproj.io/managed-by: {{ $.Values.global.pattern }}-{{ $.Values.clusterGroup.name }}
+{{- end }}{{- /* if .singleArgoCD */}}
+{{- end }} {{- /* End define  "clustergroup.template.argocdmanagedbylabel" */}}
