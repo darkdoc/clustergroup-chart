@@ -326,7 +326,7 @@ false
 */ -}}
 {{- define "clustergroup.template.argocdnamespace" -}}
 {{- if $.Values.clusterGroup.singleArgoCD }}
-openshift-gitops
+{{ $.Values.global.vpArgoNamespace }}
 {{- else }}
 {{ $.Values.global.pattern }}-{{ $.Values.clusterGroup.name }}
 {{- end }}{{- /* if .singleArgoCD */}}
