@@ -95,7 +95,7 @@ kind: AppProject
 metadata:
   name: {{ $k }}
 {{- if (eq $enabled "plumbing") }}
-  namespace: openshift-gitops
+  namespace: {{ $.Values.global.namespace }}
 {{- else }}
   namespace: {{ $namespace }}
 {{- end }}
@@ -131,7 +131,7 @@ kind: AppProject
 metadata:
   name: {{ . }}
 {{- if (eq $enabled "plumbing") }}
-  namespace: openshift-gitops
+  namespace: {{ $.Values.global.namespace }}
 {{- else }}
   namespace: {{ $namespace }}
 {{- end }}
@@ -246,7 +246,7 @@ spec:
 */ -}}
 {{- define "clustergroup.template.argocdnamespace" -}}
 {{- if $.Values.clusterGroup.singleArgoCD }}
-openshift-gitops
+{{ $.Values.global.namespace }}
 {{- else }}
 {{ $.Values.global.pattern }}-{{ $.Values.clusterGroup.name }}
 {{- end }}{{- /* if .singleArgoCD */}}
