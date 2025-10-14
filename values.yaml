@@ -1,4 +1,5 @@
 global:
+  namespace: "openshift-gitops"
   extraValueFiles: []
   pattern: common
   secretLoader:

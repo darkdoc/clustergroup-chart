@@ -9,7 +9,7 @@ Default always defined top-level variables for helm charts
 - name: global.targetRevision
   value: {{ $.Values.global.targetRevision }}
 - name: global.namespace
-  value: $ARGOCD_APP_NAMESPACE
+  value: {{ $.Values.global.namespace }}
 - name: global.pattern
   value: {{ $.Values.global.pattern }}
 - name: global.clusterDomain
